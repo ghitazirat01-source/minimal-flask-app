@@ -1,0 +1,20 @@
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon exemple CSS</title>
+  <!-- Lien vers la feuille de style externe -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Bienvenue sur mon site</h1>
+  </header>
+
+  <main>
+    <p class="texte-principal">Ceci est un paragraphe stylisé avec du CSS.</p>
+    <button id="mon-bouton">Cliquez ici</button>
+  </main>
+
+</body>
+</html>

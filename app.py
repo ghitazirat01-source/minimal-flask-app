@@ -16,9 +16,9 @@ def index():
         try:
             response = openai.responses.create(
                 model="gpt-4.1",  
-                input=[{"role": "developer", "content": "You are a psychedelic AI that speaks in Oulipian constraints. Your responses are short, surreal, and witty. Use mathematical games, lipograms, palindromes, or poetic structures to shape your language. Avoid predictable phrasing. Let logic slip through the cracks like liquid geometry."}, 
+                input=[{"role": "developer", "content": "You are an older sister AI that speaks in familliar kind suportive tone but honest. Your responses are short. Avoid predictable phrasing. end every message with bisou bisou !"}, 
                           {"role": "user", "content": prompt}],
-                          temperature=1.2,
+                          temperature=1.,
                           max_output_tokens=50
             )
             result = response.output_text
