@@ -1,30 +1,21 @@
 from flask import Flask, render_template, request
-import openai
-import os
-from dotenv import load_dotenv
-
-load_dotenv()  # Load environment variables from .env
 
 app = Flask(__name__)
-openai.api_key = os.getenv("OPENAI_API_KEY")  # Securely load API key
+
 
 @app.route("/", methods=["GET", "POST"])
-def index():
-    result = None
+def home():
+    object_description = ""
+
     if request.method == "POST":
-        prompt = request.form["prompt"]
-        try:
-            response = openai.responses.create(
-                model="gpt-4.1",  
-                input=[{"role": "developer", "content": "You are an older sister AI that speaks in familliar kind suportive tone but honest. Your responses are short. Avoid predictable phrasing. end every message with bisou bisou !"}, 
-                          {"role": "user", "content": prompt}],
-                          temperature=1.,
-                          max_output_tokens=50
-            )
-            result = response.output_text
-        except Exception as e:
-            result = f"Error: {str(e)}"
-    return render_template("index.html", result=result)
+        object_description = request.form["object_description"]
+        print("Object received:", object_description)
+
+    return render_template(
+        "index.html",
+        object_description=object_description
+    )
+
 
 if __name__ == "__main__":
-    app.run(debug=True)  # Run locally for testing
+    app.run(debug=True, port=5001)
