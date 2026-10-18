@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from openai import OpenAI
 import os
+import json
 
 app = Flask(__name__)
 
@@ -52,21 +53,34 @@ Invent a fictional artist with:
 Never use a real contemporary artist.
 
 5. REQUIRED FORMAT
+Return all information as JSON using the required fields.
 
-Artist: [invented name + bio line]
+The JSON must contain:
 
-Title: [invented title], [year]
+artist:
+An invented artist name followed by a short fictional biography.
 
-Medium: [real materials from the object + abstract concepts]
+title:
+An invented artwork title.
 
-Dimensions: [plausible or exaggerated dimensions]
+year:
+The year of the artwork.
 
-Provenance: [fictional history of ownership]
+medium:
+Real materials from the object combined with abstract concepts.
 
-Credit: [fictional museum credit line]
+dimensions:
+Plausible or exaggerated dimensions.
 
-Extended Label:
-[80–120 words]
+provenance:
+A fictional humorous history of ownership connected to the object's
+everyday life.
+
+credit:
+A fictional museum credit line.
+
+extended_label:
+An 80–120 word contemporary-art museum label.
 
 6. PROVENANCE AND CREDIT
 Create a humorous fictional history of ownership connected to the
@@ -81,7 +95,7 @@ and exactly ONE invented book by that theorist.
 Never use real theorists or real books.
 
 8. OVERALL TONE
-The result should resemble a prestigious contemporary-art museum label:
+The result should resemble a prestigious contemporary art museum label:
 serious, intellectual, unnecessarily elaborate, and slightly absurd.
 
 The absurdity should come from applying this language to an ordinary object.
@@ -91,7 +105,7 @@ The absurdity should come from applying this language to an ordinary object.
 @app.route("/", methods=["GET", "POST"])
 def home():
     object_description = ""
-    museum_label = ""
+    museum_label = None
 
     if request.method == "POST":
         object_description = request.form["object_description"]
@@ -99,10 +113,57 @@ def home():
         response = client.responses.create(
             model="gpt-5",
             instructions=SYSTEM_PROMPT,
-            input=object_description
+            input=object_description,
+            text={
+                "format": {
+                    "type": "json_schema",
+                    "name": "museum_label",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "artist": {
+                                "type": "string"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "year": {
+                                "type": "integer"
+                            },
+                            "medium": {
+                                "type": "string"
+                            },
+                            "dimensions": {
+                                "type": "string"
+                            },
+                            "provenance": {
+                                "type": "string"
+                            },
+                            "credit": {
+                                "type": "string"
+                            },
+                            "extended_label": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "artist",
+                            "title",
+                            "year",
+                            "medium",
+                            "dimensions",
+                            "provenance",
+                            "credit",
+                            "extended_label"
+                        ],
+                        "additionalProperties": False
+                    },
+                    "strict": True
+                }
+            }
         )
 
-        museum_label = response.output_text
+        museum_label = json.loads(response.output_text)
 
     return render_template(
         "index.html",

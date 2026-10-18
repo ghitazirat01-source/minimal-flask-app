@@ -1,46 +1,100 @@
+à```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>Ordinary Object Museum</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
 </head>
 
 <body>
 
-    <h1>Turn Your Object Into Art</h1>
+    <main>
 
-    <p>
-        Describe an ordinary object from your pocket, bag, or desk.
-    </p>
+        <h1>Turn Your Object Into Art</h1>
 
-    <form method="POST">
+        <p>
+            Describe an ordinary object from your pocket, bag, or desk.
+        </p>
 
-        <input
-            type="text"
-            name="object_description"
-            placeholder="e.g. an old blue pen with bite marks"
-            required
-        >
+        <form method="POST">
 
-        <button type="submit">
-            Turn It Into Art
-        </button>
+            <input
+                type="text"
+                name="object_description"
+                placeholder="e.g. an old blue pen with bite marks"
+                required
+            >
 
-    </form>
+            <button type="submit">
+                Turn It Into Art
+            </button>
 
-    {% if object_description %}
-        <h2>Your object:</h2>
-        <p>{{ object_description }}</p>
-    {% endif %}
+        </form>
+
+
+        {% if museum_label %}
+
+        <section class="museum-label">
+
+            <p class="museum-name">
+                ORDINARY OBJECT MUSEUM
+            </p>
+
+            <h2>
+                {{ museum_label.title }}
+            </h2>
+
+            <p class="artist">
+                <strong>Artist:</strong>
+                {{ museum_label.artist }}
+            </p>
+
+            <p>
+                <strong>Year:</strong>
+                {{ museum_label.year }}
+            </p>
+
+            <p>
+                <strong>Medium:</strong>
+                {{ museum_label.medium }}
+            </p>
+
+            <p>
+                <strong>Dimensions:</strong>
+                {{ museum_label.dimensions }}
+            </p>
+
+            <p>
+                <strong>Provenance:</strong>
+                {{ museum_label.provenance }}
+            </p>
+
+            <p>
+                <strong>Credit:</strong>
+                {{ museum_label.credit }}
+            </p>
+
+            <hr>
+
+            <h3>Extended Label</h3>
+
+            <p class="extended-label">
+                {{ museum_label.extended_label }}
+            </p>
+
+        </section>
+
+        {% endif %}
+
+    </main>
 
 </body>
 
 </html>
-{% if museum_label %}
-    <div class="museum-label">
-        <h2>Museum Label</h2>
-        <p>{{ museum_label }}</p>
-    </div>
-{% endif %}
+```
