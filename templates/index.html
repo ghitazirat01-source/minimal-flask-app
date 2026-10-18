@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Ordinary Object Museum</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
@@ -37,3 +38,9 @@
 </body>
 
 </html>
+{% if museum_label %}
+    <div class="museum-label">
+        <h2>Museum Label</h2>
+        <p>{{ museum_label }}</p>
+    </div>
+{% endif %}
